@@ -4,6 +4,7 @@ import org.apache.spark.SparkConf
 import org.apache.spark.sql.{Row, SparkSession}
 import org.apache.spark.sql.types.{IntegerType, StringType, StructField, StructType}
 
+//此方式实际工作中较多使用
 object DFTest2 {
   def main(args: Array[String]): Unit = {
     //获取SparkSession

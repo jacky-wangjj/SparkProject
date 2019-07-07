@@ -5,7 +5,7 @@ import org.apache.spark.{SparkConf, SparkContext}
 
 case class Person(id: Int, name: String, age: Int, faceValue: Int)
 
-//通过反射创建DataFram
+//通过反射创建DataFram，此方式对字段个数有限制（case class最多支持22个字段）
 object DFTest {
   def main(args: Array[String]): Unit = {
     //获取SparkSession
