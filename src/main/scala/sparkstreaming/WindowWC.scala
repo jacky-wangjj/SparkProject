@@ -1,8 +1,7 @@
 package sparkstreaming
 
 import org.apache.spark.SparkConf
-import org.apache.spark.streaming.StreamingContext
-import org.scalatest.time.Seconds
+import org.apache.spark.streaming.{Seconds, StreamingContext}
 
 object WindowWC {
   def main(args: Array[String]): Unit = {
