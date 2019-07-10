@@ -1,7 +1,9 @@
 package sparksql
 
+import java.util.Properties
+
 import org.apache.spark.SparkConf
-import org.apache.spark.sql.{Row, SparkSession}
+import org.apache.spark.sql.{Row, SaveMode, SparkSession}
 import org.apache.spark.sql.types.{IntegerType, StringType, StructField, StructType}
 
 //此方式实际工作中较多使用
@@ -32,6 +34,15 @@ object DFTest2 {
     val personDF = sparkSession.createDataFrame(personRDD, schema)
     //打印DataFrame
     personDF.show()
+    //保存DataFrame到mysql
+    val jdbcURL = "jdbc:mysql://localhost:3306/testdb?useSSL=false&autoReconnect=true"
+    val table = "person"
+    val prop = new Properties()
+    prop.setProperty("user", "root")
+    prop.setProperty("password", "123456")
+    prop.setProperty("driver", "com.mysql.jdbc.Driver")
+    prop.setProperty("url", jdbcURL)
+    personDF.write.mode(SaveMode.Overwrite).jdbc(jdbcURL, table, prop)
 
     //SQL查询
     //创建临时表
@@ -40,6 +51,9 @@ object DFTest2 {
     val resultDF = sparkSession.sql("select * from t_person order by age desc limit 2")
     //输出
     resultDF.show()
+    //保存DataFrame到mysql
+    val resultTable = "person_result"
+    resultDF.write.mode(SaveMode.Overwrite).jdbc(jdbcURL, resultTable, prop)
     //    resultDF.write.json(args(1))
     //关闭资源
     sparkSession.stop()
